@@ -1,0 +1,1 @@
+call user_add_node(10,"tuando","Đỗ Mạnh Tuân","uploads/tuando.jpg");
