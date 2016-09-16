@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'right_id',
             'is_admin',
             'fullname',
-            'gener',
+            'gender',
             'married',
             'birthYear',
             'deathYear',

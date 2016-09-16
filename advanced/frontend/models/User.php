@@ -19,7 +19,7 @@ use Yii;
  * @property integer $right_id
  * @property integer $is_admin
  * @property string $fullname
- * @property integer $gener
+ * @property integer $gender
  * @property integer $married
  * @property integer $birthYear
  * @property integer $deathYear
@@ -47,7 +47,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gener', 'married', 'birthYear', 'deathYear', 'status'], 'integer'],
+            [['ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gender', 'married', 'birthYear', 'deathYear', 'status'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'fullname', 'worshipPlace', 'image'], 'string', 'max' => 255],
@@ -76,7 +76,7 @@ class User extends \yii\db\ActiveRecord
             'right_id' => Yii::t('app', 'Right ID'),
             'is_admin' => Yii::t('app', 'Is Admin'),
             'fullname' => Yii::t('app', 'Fullname'),
-            'gener' => Yii::t('app', 'Gener'),
+            'gender' => Yii::t('app', 'Gender'),
             'married' => Yii::t('app', 'Married'),
             'birthYear' => Yii::t('app', 'Birth Year'),
             'deathYear' => Yii::t('app', 'Death Year'),
@@ -98,6 +98,20 @@ class User extends \yii\db\ActiveRecord
         $sql = "call user_get_branch(".$Id.",".$depth.",'--');";
         //file_put_contents('loadVideos.txt',json_encode($arrayMembers));
         file_put_contents('loadmembers.txt',$sql);
+        $members = User::findBySql($sql, [])->all();
+        file_put_contents('allmembers.txt',json_encode($members));
+        return $members;
+    }
+
+
+    public function getParent($Id){
+        $sql = "SELECT id
+                 , fullname
+                 , gender
+                 , description
+                 , ancestor_id
+            FROM user
+            WHERE id = $Id";
         $members = User::findBySql($sql, [])->all();
         return $members;
     }

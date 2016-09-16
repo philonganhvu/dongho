@@ -34,9 +34,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'gener')->textInput() ?>
+    <?= $form->field($model, 'gender')->textInput() ?>
 
-    <?= $form->field($model, 'married')->textInput() ?>
+    <?= $form->field($model, 'spouse')->textInput() ?>
 
     <?= $form->field($model, 'birthYear')->textInput() ?>
 

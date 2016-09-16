@@ -18,7 +18,7 @@ class UserSearch extends User
     public function rules()
     {
         return [
-            [['id', 'ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gener', 'married', 'birthYear', 'deathYear', 'status'], 'integer'],
+            [['id', 'ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gender', 'spouse', 'birthYear', 'deathYear', 'status'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'fullname', 'description', 'worshipPlace', 'image', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -65,8 +65,8 @@ class UserSearch extends User
             'left_id' => $this->left_id,
             'right_id' => $this->right_id,
             'is_admin' => $this->is_admin,
-            'gener' => $this->gener,
-            'married' => $this->married,
+            'gender' => $this->gender,
+            'spouse' => $this->spouse,
             'birthYear' => $this->birthYear,
             'deathYear' => $this->deathYear,
             'created_at' => $this->created_at,

@@ -19,8 +19,8 @@ use Yii;
  * @property integer $right_id
  * @property integer $is_admin
  * @property string $fullname
- * @property integer $gener
- * @property integer $married
+ * @property integer $gender
+ * @property integer $spouse
  * @property integer $birthYear
  * @property integer $deathYear
  * @property string $description
@@ -48,7 +48,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['username'], 'required'],
-            [['ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gener', 'married', 'birthYear', 'deathYear', 'status'], 'integer'],
+            [['ancestor_id', 'parent_id', 'left_id', 'right_id', 'is_admin', 'gender', 'spouse', 'birthYear', 'deathYear', 'status'], 'integer'],
             [['description'], 'string'],
             [['file'], 'file'],
             [['created_at', 'updated_at'], 'safe'],
@@ -77,8 +77,8 @@ class User extends \yii\db\ActiveRecord
             'right_id' => Yii::t('app', 'Right ID'),
             'is_admin' => Yii::t('app', 'Is Admin'),
             'fullname' => Yii::t('app', 'Fullname'),
-            'gener' => Yii::t('app', 'Gener'),
-            'married' => Yii::t('app', 'Married'),
+            'gender' => Yii::t('app', 'gender'),
+            'spouse' => Yii::t('app', 'spouse'),
             'birthYear' => Yii::t('app', 'Birth Year'),
             'deathYear' => Yii::t('app', 'Death Year'),
             'description' => Yii::t('app', 'Description'),

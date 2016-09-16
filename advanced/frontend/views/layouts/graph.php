@@ -14,7 +14,6 @@ use common\widgets\Alert;
 AppAsset::register($this);
 GraphAsset::register($this);
 
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -25,6 +24,9 @@ GraphAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script type="text/javascript">
+        var nodeDataArray = [];
+    </script>
 </head>
 <body onload="init()">
 <?php $this->beginBody() ?>
@@ -72,7 +74,6 @@ GraphAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>

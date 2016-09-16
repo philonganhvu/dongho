@@ -39,9 +39,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'fullname') ?>
 
-    <?php // echo $form->field($model, 'gener') ?>
+    <?php // echo $form->field($model, 'gender') ?>
 
-    <?php // echo $form->field($model, 'married') ?>
+    <?php // echo $form->field($model, 'spouse') ?>
 
     <?php // echo $form->field($model, 'birthYear') ?>
 

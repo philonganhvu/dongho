@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'right_id',
             // 'is_admin',
              'fullname',
-             ['attribute'=>'gener','value'=>function($data){return ($data->gener==1)?'Male':'Female';}],
+             ['attribute'=>'gender','value'=>function($data){return ($data->gender==1)?'Male':'Female';}],
             // 'married',
             // 'birthYear',
             // 'deathYear',

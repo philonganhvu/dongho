@@ -69,7 +69,8 @@ class GraphController extends Controller
      */
     public function actionIndex()
     {
-        $path_to = Yii::$app->request->baseUrl;
+        //$path_to = \Yii::getAlias('@images');//var_dump($path_to);exit;
+        $path_to = \Yii::$app->request->BaseUrl;//var_dump($path_to);exit;
         //$this->layout = "@app/views/layouts/graph";
         return $this->render('index', [
             'image_path' => $path_to,
@@ -85,15 +86,30 @@ class GraphController extends Controller
         $depth = Yii::$app->request->post('depth');
         if ($id&&$depth)
             $arrayMembers = $md_User->getMembers($id,$depth);
+
+            $arrayParent = $md_User->getParent($id);
         $data_members = array();
         //all members
         $dataMembers = array();
+        if(!empty($arrayParent))
+        {
+            foreach($arrayParent as $member) {
+                $data_members['key'] = $member->id;
+                $data_members['name'] = $member->fullname;
+                $data_members['gender'] = ($member->gender==1)?'M':'F';
+                $data_members['birthYear'] = $member->birthYear;
+                $data_members['deathYear'] = $member->deathYear;
+                $data_members['spouse'] = $member->spouse;
+                $dataMembers[] = $data_members;
+            }
+        }
         if(!empty($arrayMembers))
         {
             foreach($arrayMembers as $member) {
                 $data_members['key'] = $member->id;
+                $data_members['parent'] = $member->parent_id;
                 $data_members['name'] = $member->fullname;
-                $data_members['gender'] = $member->gender;
+                $data_members['gender'] = ($member->gender==1)?'M':'F';
                 $data_members['birthYear'] = $member->birthYear;
                 $data_members['deathYear'] = $member->deathYear;
                 $data_members['spouse'] = $member->spouse;
