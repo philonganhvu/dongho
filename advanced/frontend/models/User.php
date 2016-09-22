@@ -134,7 +134,7 @@ class User extends \yii\db\ActiveRecord
     public function getIdbyName($name){
         $sql = "SELECT id
             FROM user
-            WHERE fullname LIKE '%$name%' COLLATE utf8_vietnamese1_ci ORDER BY id DESC LIMIT 1";
+            WHERE LOWER(fullname) LIKE BINARY LOWER('%$name') ORDER BY id DESC LIMIT 1";
         file_put_contents('sql_id.txt',$sql);
         $members = User::findBySql($sql, [])->all();
         return $members[0]->id;
