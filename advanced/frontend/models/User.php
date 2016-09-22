@@ -90,29 +90,53 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $Id
+     * @param $id
      * @param $depth
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function getMembers($Id,$depth){
-        $sql = "call user_get_branch(".$Id.",".$depth.",'--');";
-        //file_put_contents('loadVideos.txt',json_encode($arrayMembers));
-        file_put_contents('loadmembers.txt',$sql);
+    public function getMembers($id,$depth){
+        $sql = "call user_get_branch(".$id.",".$depth.",'--');";
         $members = User::findBySql($sql, [])->all();
-        file_put_contents('allmembers.txt',json_encode($members));
         return $members;
     }
 
+    /**
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getTotien($id){
+        $sql = "call user_get_parents(".$id.",null);";
+        file_put_contents('loadtotien.txt',$sql);
+        $members = User::findBySql($sql, [])->all();
+        return $members;
+    }
 
-    public function getParent($Id){
+    /**
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getParent($id){
         $sql = "SELECT id
                  , fullname
                  , gender
                  , description
                  , ancestor_id
             FROM user
-            WHERE id = $Id";
+            WHERE id = $id";
         $members = User::findBySql($sql, [])->all();
         return $members;
+    }
+
+    /**
+     * @param $name
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getIdbyName($name){
+        $sql = "SELECT id
+            FROM user
+            WHERE fullname LIKE '%$name%' COLLATE utf8_vietnamese1_ci ORDER BY id DESC LIMIT 1";
+        file_put_contents('sql_id.txt',$sql);
+        $members = User::findBySql($sql, [])->all();
+        return $members[0]->id;
     }
 }

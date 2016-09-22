@@ -24,11 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <div id="sample">
         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
         <h3>Lược đồ trích dẫn</h3>
+        <div>
+            <input type="text" id="parent_name" name="parent_name">
+            <p><button id="reloadInit" onclick="loadConChau()">Tìm Con Cháu</button>
+            <p><button id="reloadToTien" onclick="loadToTien()">Tìm Tổ Tiên</button>
+        </div>
+        <div>
+            <input type="text" id="member_name1" name="member_name1">
+            <input type="text" id="member_name2" name="member_name2">
+            <p><button id="reloadToTien" onclick="loadToTien2()">Tìm Quan Hệ Họ Hàng</button>
+        </div>
+
         <div id="myDiagramDiv" style="background-color: #929292; border: solid 1px black; width: 100%; height: 550px"></div>
         <p><button id="zoomToFit">Zoom to Fit</button> <button id="centerRoot">Center on root</button></p>
     </div>
 </div>
-
 
 <script id="code">
     function init() {
@@ -148,7 +158,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         // here's the family data
         loadData();
-        console.log(nodeDataArray);
         // create the model for the family tree
         myDiagram.model = new go.TreeModel(nodeDataArray);
 
@@ -169,7 +178,6 @@ $this->params['breadcrumbs'][] = $this->title;
             depth: 8,
             _csrf: yii.getCsrfToken()
         };
-        //console.log(form_data);
         $.ajax({
             type: "POST",
             url: '<?=Yii::$app->urlManager->createUrl('graph/ajaxloadmembers');?>',
@@ -179,8 +187,131 @@ $this->params['breadcrumbs'][] = $this->title;
             success: function (jsonData) {
                 if ($.isEmptyObject(jsonData))
                     nodeDataArray = [];
-                else
+                else{
                     nodeDataArray = jsonData;
+                }
+
+            },
+            error: function (xhr, tStatus, e) {
+                if (!xhr) {
+                    alert(" We have an error ");
+                    alert(tStatus + "   " + e.message);
+                } else {
+                    alert("else: " + e.message); // the great unknown
+                }
+            }
+        });
+    }
+    //load tat ca con chau cua nguoi nay theo do depth da chon
+    function loadConChau() {
+        csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var form_data = {
+            member_name: $('#parent_name').val(),
+            depth: 8,
+            _csrf: yii.getCsrfToken()
+        };
+        //console.log(form_data);parent_id
+        $.ajax({
+            type: "POST",
+            url: '<?=Yii::$app->urlManager->createUrl('graph/ajaxloadmembers');?>',
+            dataType: 'json',
+            data: form_data,
+            async: false,
+            success: function (jsonData) {
+                if ($.isEmptyObject(jsonData))
+                    nodeDataArray = [];
+                else{
+                    nodeDataArray = jsonData;
+                    var dataLoad  = '{"class": "go.TreeModel",' +
+                        '"nodeDataArray": \n'+JSON.stringify(jsonData)+'}';
+                    myDiagram.model = go.Model.fromJson(dataLoad);
+                }
+            },
+            error: function (xhr, tStatus, e) {
+                if (!xhr) {
+                    alert(" We have an error ");
+                    alert(tStatus + "   " + e.message);
+                } else {
+                    alert("else: " + e.message); // the great unknown
+                }
+            }
+        });
+    }
+    //load to tien cua nguoi nay
+    function loadToTien() {
+        csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var member = $('#parent_name').val().trim();
+        if (member=='') {
+            alert('Bạn chưa nhập tên người cần tìm tổ tiên');
+            return;
+        }
+        var form_data = {
+            member_name: member,
+            depth: 8,
+            _csrf: yii.getCsrfToken()
+        };
+        //console.log(form_data);parent_id
+        $.ajax({
+            type: "POST",
+            url: '<?=Yii::$app->urlManager->createUrl('graph/ajaxloadtotien');?>',
+            dataType: 'json',
+            data: form_data,
+            async: false,
+            success: function (jsonData) {
+                if ($.isEmptyObject(jsonData))
+                    nodeDataArray = [];
+                else{
+                    nodeDataArray = jsonData;
+                    var dataLoad  = '{"class": "go.TreeModel",' +
+                        '"nodeDataArray": \n'+JSON.stringify(jsonData)+'}';
+                    myDiagram.model = go.Model.fromJson(dataLoad);
+                }
+            },
+            error: function (xhr, tStatus, e) {
+                if (!xhr) {
+                    alert(" We have an error ");
+                    alert(tStatus + "   " + e.message);
+                } else {
+                    alert("else: " + e.message); // the great unknown
+                }
+            }
+        });
+    }
+    //load to tien cua 2 nguoi nay
+    function loadToTien2() {
+        csrfToken = $('meta[name="csrf-token"]').attr("content");
+        var member1 = $('#member_name1').val().trim();
+        var member2 = $('#member_name2').val().trim();
+        if (member1=='') {
+            alert('Bạn chưa nhập tên người cần tìm tổ tiên');
+            return;
+        }
+        if (member2=='') {
+            alert('Bạn chưa nhập tên người cần tìm tổ tiên');
+            return;
+        }
+        var form_data = {
+            member_name1: member1,
+            member_name2: member2,
+            depth: 8,
+            _csrf: yii.getCsrfToken()
+        };
+        //console.log(form_data);parent_id
+        $.ajax({
+            type: "POST",
+            url: '<?=Yii::$app->urlManager->createUrl('graph/ajaxloadquanhe');?>',
+            dataType: 'json',
+            data: form_data,
+            async: false,
+            success: function (jsonData) {
+                if ($.isEmptyObject(jsonData))
+                    nodeDataArray = [];
+                else{
+                    nodeDataArray = jsonData;
+                    var dataLoad  = '{"class": "go.TreeModel",' +
+                        '"nodeDataArray": \n'+JSON.stringify(jsonData)+'}';
+                    myDiagram.model = go.Model.fromJson(dataLoad);
+                }
             },
             error: function (xhr, tStatus, e) {
                 if (!xhr) {
