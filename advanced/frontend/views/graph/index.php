@@ -143,11 +143,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         { font: "700 12px Droid Serif, sans-serif",
                             textAlign: "start",
                             margin: 10, maxSize: new go.Size(100, NaN) },
-                        new go.Binding("text", "name")),
-                    {
-                        click: function(e, obj) { alert(obj.part.data.key);window.open('http://google.com.vn','_blank'); }
-                    }
-                )
+                        new go.Binding("text", "name"))
+                ),
+                {
+                    click: function(e, obj) { var member_ids = obj.part.data.key; openWindow('POST', "<?=Yii::$app->urlManager->createUrl('details/index');?>", {member_id: member_ids}, '_blank')}
+                }
             );
 
         // define the Link template
@@ -323,4 +323,29 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         });
     }
+    // Arguments :
+    //  verb : 'GET'|'POST'
+    //  target : an optional opening target (a name, or "_blank"), defaults to "_self"
+    var openWindow = function(verb, url, data, target) {
+         var form = document.createElement("form");
+            form.action = url;
+            form.method = verb;
+            form.target = target || "_self";
+
+            var input = document.createElement("textarea");
+            form.appendChild(input);
+
+            if (data) {
+                for (var key in data) {
+                    var input = document.createElement("textarea");
+                    input.name = key;
+                    input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+                    form.appendChild(input);
+                }
+            }
+
+            form.style.display = 'none';
+            document.body.appendChild(form);
+            form.submit();
+     };
 </script>

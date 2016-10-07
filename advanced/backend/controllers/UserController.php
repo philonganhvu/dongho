@@ -138,4 +138,49 @@ class UserController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function actionUploads()
+    {
+        $fileName = 'file';
+        $uploadPath = 'uploads/';
+
+        if (isset($_FILES[$fileName])) {
+            $file = \yii\web\UploadedFile::getInstanceByName($fileName);
+
+            //Print file data
+            //print_r($file);exit;
+
+            if ($file->saveAs($uploadPath . '/' . $file->name)) {
+                //Now save file data to database
+
+                //echo \yii\helpers\Json::encode($file);
+                echo $uploadPath . '/' . $file->name;
+            }
+        }else{
+            return $this->render('uploads');
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function actionDeletefiles()
+    {
+        if (Yii::$app->request->post()){
+            $fileName = Yii::$app->request->post('id');
+            file_put_contents('duongdan.txt','duong dan '.$fileName);
+            $uploadPath = 'uploads';
+            if (isset($fileName)) {
+                file_put_contents('duongdan.txt',$uploadPath.DIRECTORY_SEPARATOR.$fileName);
+                unlink($uploadPath.DIRECTORY_SEPARATOR.$fileName); //delete it
+
+            }
+        }
+        return false;
+    }
 }

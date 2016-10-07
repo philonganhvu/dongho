@@ -17,7 +17,13 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "kartik-v/yii2-grid": "*",
+        "costa-rico/yii2-images": "dev-master",
+        "yiisoft/yii2-imagine": "^2.0",
+		"google/apiclient":"^2.0.0@RC",
+		"madcoda/php-youtube-api": "1.*",
+        "perminder-klair/yii2-dropzone": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -25,6 +31,7 @@
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
     },
+	
     "config": {
         "process-timeout": 1800
     },
@@ -33,8 +40,5 @@
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         }
-    },
-    "scripts": {
-        "post-install-cmd": "php init --env=Development --overwrite=n"
     }
 }

@@ -70,7 +70,7 @@ class GraphController extends Controller
     public function actionIndex()
     {
         //$path_to = \Yii::getAlias('@images');//var_dump($path_to);exit;
-        $path_to = \Yii::$app->request->BaseUrl;//var_dump($path_to);exit;
+        $path_to = \Yii::$app->request->BaseUrl;//var_dump(@web);exit;
         //$this->layout = "@app/views/layouts/graph";
         return $this->render('index', [
             'image_path' => $path_to,

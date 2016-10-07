@@ -107,7 +107,10 @@ class User extends \yii\db\ActiveRecord
     public function getTotien($id){
         $sql = "call user_get_parents(".$id.",null);";
         file_put_contents('loadtotien.txt',$sql);
+
         $members = User::findBySql($sql, [])->all();
+
+        file_put_contents('debug.txt', print_r($members, true));
         return $members;
     }
 
@@ -128,6 +131,30 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getDetails($id){
+        $sql = "SELECT id
+                 , email
+                 , fullname
+                 , gender
+                 , description
+                 , ancestor_id
+                 , spouse
+                 , birthYear
+                 , deathYear
+                 , worshipPlace
+                 , image
+                 , images
+                 , videos
+            FROM user
+            WHERE id = $id";
+        $members = User::findBySql($sql, [])->all();
+        return $members;
+    }
+
+    /**
      * @param $name
      * @return array|\yii\db\ActiveRecord[]
      */
@@ -137,6 +164,9 @@ class User extends \yii\db\ActiveRecord
             WHERE LOWER(fullname) LIKE BINARY LOWER('%$name') ORDER BY id DESC LIMIT 1";
         file_put_contents('sql_id.txt',$sql);
         $members = User::findBySql($sql, [])->all();
-        return $members[0]->id;
+        $return_value = 0;
+        if ($members)
+            $return_value = $members[0]->id;
+        return $return_value;
     }
 }

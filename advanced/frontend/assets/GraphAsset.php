@@ -10,6 +10,8 @@ use yii\web\AssetBundle;
 class GraphAsset extends AssetBundle
 {
     public $css = [
+        'details/awesome/css/font-awesome.min.css',
+        'details/awesome/css/details/css/jquery-ui.min.css',
     ];
     public $js = [
         'js/gojs/go.js',
